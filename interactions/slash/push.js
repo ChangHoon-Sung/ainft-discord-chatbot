@@ -29,15 +29,22 @@ module.exports = {
 			return;
 		}
 
+		if(game.winner === interaction.user.username){
+			const embed = new MessageEmbed()
+				.setTitle('Current winner can\'t push the button!')
+				.setColor(0xD0312D);
+			await interaction.reply({ embeds: [embed], ephemeral: true });
+			return;
+		}
+
 		game.updateTimer(
 			async () => {
-				// send a message to the channel
 				const embed = new MessageEmbed()
 					.setColor(0x4286f4)
-					.setTitle(`Game Over! Winner is ${game.winner}`)
+					.setTitle(`Game Over!\tWinner is ${game.winner} 🎉`)
 					.setDescription(
-						`The game is over! Total jackpot Reward is 10BTC.\n` +
-						`The winner is ${game.winner}. Type /new-game to start a new game.`
+						`Total reward: ${game.reward} AIN.\n` +
+						`The winner is ${game.winner}.\n\nType \`/new-game\` to start a new game.`
 					);
 				await interaction.channel.send({ embeds: [embed] });
 			},
@@ -46,12 +53,15 @@ module.exports = {
 
 		const privateEmbed = new MessageEmbed().setColor(0x4286f4)
 			.setTitle(`Pushed!`)
-			.setDescription(interaction.user.username + " pushed the button! Timer has been reset.");
+			.setDescription(`You pushed the button! Timer has been reset.`);
 		await interaction.reply({ embeds: [privateEmbed], ephemeral: true });
 
 		const publicEmbed = new MessageEmbed().setColor(0x4286f4)
 			.setTitle(`Pushed!`)
-			.setDescription("Someone pushed the button! Timer has been reset.\n" + " Winning Time: <t:" + game.timestamp + ">");
+			.setDescription(
+				`Someone pushed the button! Timer has been reset.\n` +
+				`Current Reward: ${game.reward} AIN\n` +
+				`Winning Time: <t:${game.timestamp}:T>`);
 		await interaction.channel.send({ embeds: [publicEmbed] });
 	},
 };

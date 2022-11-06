@@ -10,7 +10,7 @@
 
 const { MessageEmbed } = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { game } = require("../../game");
+const { game, REWARD_INCREASE_INTERVAL_SEC, MAX_REWARD } = require("../../game");
 
 module.exports = {
 	// The data needed to register slash commands to Discord.
@@ -21,7 +21,7 @@ module.exports = {
 		),
 
 	async execute(interaction) {
-		// when the game object's timestamp is future time, it means the game is not over yet.
+		// when the game object's timestamp is not null, it means the game is not over yet.
 		if (game.timestamp) {
 			const embed = new MessageEmbed()
 				.setTitle('The game is not over yet.')
@@ -30,17 +30,16 @@ module.exports = {
 			return;
 		}
 
-		// when the game object's timestamp is past time, it means the game is over.
+		// when the game object's timestamp is null, it means the game is over.
 		// so, we can start a new game.
 		game.startNewGame(
 			async () => {
-				// send a message to the channel
 				const embed = new MessageEmbed()
 					.setColor(0x4286f4)
-					.setTitle(`Game Over! Winner is ${game.winner}`)
+					.setTitle(`🎲 Game Over!\tWinner is ${game.winner} 🎉`)
 					.setDescription(
-						`The game is over! Total jackpot Reward is 10BTC.\n` +
-						`The winner is ${game.winner}. Type /new-game to start a new game.`
+						`Total reward: ${game.reward} AIN.\n` +
+						`The winner is ${game.winner}.\n\nType \`/new-game\` to start a new game.`
 					);
 				await interaction.channel.send({ embeds: [embed] });
 			},
@@ -49,11 +48,12 @@ module.exports = {
 
 		// send a message to the channel
 		const embed = new MessageEmbed().setColor(0x4286f4)
-			.setTitle(`New Game Started!`)
+			.setTitle(`🎲 New Game Started!`)
 			.setDescription(
 				interaction.user.username +
-				" started the new game! /push the button and take the jackpot prize! \n" +
-				" Winning Time: <t:" + game.timestamp + ">");
+				` started the new game! \`/push\` the button and take the jackpot reward! \n` +
+				` Reward will be increased by 1 AIN every ${REWARD_INCREASE_INTERVAL_SEC} seconds. (max ${MAX_REWARD}) \n` +
+				` Winning Time: <t:${game.timestamp}:T>`);
 		await interaction.reply({ embeds: [embed] });
 
 	},
