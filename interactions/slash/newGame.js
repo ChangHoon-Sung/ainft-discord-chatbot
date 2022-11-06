@@ -26,7 +26,7 @@ module.exports = {
 			const embed = new MessageEmbed()
 				.setTitle('The game is not over yet.')
 				.setColor(0xD0312D);
-			await interaction.reply({ embeds: [embed], ephemeral: true });
+			interaction.reply({ embeds: [embed], ephemeral: true });
 			return;
 		}
 
@@ -55,7 +55,5 @@ module.exports = {
 				` Reward will be increased by 1 AIN every ${REWARD_INCREASE_INTERVAL_SEC} seconds. (max ${MAX_REWARD}) \n` +
 				` Winning Time: <t:${game.timestamp}:T>`);
 		await interaction.reply({ embeds: [embed] });
-
 	},
-
 };

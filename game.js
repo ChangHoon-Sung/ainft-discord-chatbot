@@ -16,7 +16,6 @@ class Game {
     }
 
     async startNewGame(callback, username) {
-        this.timestamp = Math.floor(Date.now() / 1000) + TIMER_AMOUNT_SEC;
         this.updateTimer(callback, username);
 
         this.reward = 1;
@@ -33,6 +32,7 @@ class Game {
         }
 
         this.winner = username;
+        this.timestamp = Math.floor(Date.now() / 1000) + TIMER_AMOUNT_SEC;
         this.timer = setTimeout(() => {
             callback();
             this.finish();

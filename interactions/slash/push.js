@@ -25,7 +25,7 @@ module.exports = {
 			const embed = new MessageEmbed()
 				.setTitle('The game is not started yet.')
 				.setColor(0xD0312D);
-			await interaction.reply({ embeds: [embed], ephemeral: true });
+			interaction.reply({ embeds: [embed], ephemeral: true });
 			return;
 		}
 
@@ -33,11 +33,11 @@ module.exports = {
 			const embed = new MessageEmbed()
 				.setTitle('Current winner can\'t push the button!')
 				.setColor(0xD0312D);
-			await interaction.reply({ embeds: [embed], ephemeral: true });
+			interaction.reply({ embeds: [embed], ephemeral: true });
 			return;
 		}
 
-		game.updateTimer(
+		await game.updateTimer(
 			async () => {
 				const embed = new MessageEmbed()
 					.setColor(0x4286f4)
@@ -54,7 +54,7 @@ module.exports = {
 		const privateEmbed = new MessageEmbed().setColor(0x4286f4)
 			.setTitle(`Pushed!`)
 			.setDescription(`You pushed the button! Timer has been reset.`);
-		await interaction.reply({ embeds: [privateEmbed], ephemeral: true });
+		interaction.reply({ embeds: [privateEmbed], ephemeral: true });
 
 		const publicEmbed = new MessageEmbed().setColor(0x4286f4)
 			.setTitle(`Pushed!`)
