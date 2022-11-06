@@ -1,6 +1,6 @@
-const TIMER_AMOUNT_SEC = 10;
-const REWARD_INCREASE_INTERVAL_SEC = 10;
-const MAX_REWARD = 30;
+const TIMER_AMOUNT_SEC = 15;
+const REWARD_INCREASE_INTERVAL_SEC = 3;
+const MAX_REWARD = 100;
 
 class Game {
     
